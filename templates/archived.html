@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-secondary text-white">
+                <h4 class="mb-0"><i class="fas fa-archive"></i> Archived Cows</h4>
+            </div>
+            <div class="card-body">
+                {% if cows %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Photo</th>
+                                    <th>Name</th>
+                                    <th>Ear Tag</th>
+                                    <th>Breed</th>
+                                    <th>Date of Birth</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for cow in cows %}
+                                <tr>
+                                    <td>
+                                        {% if cow.photo_url %}
+                                            <img src="{{ cow.photo_url }}" alt="{{ cow.name }}" style="height: 50px; width: 50px; object-fit: cover; border-radius: 10px;">
+                                        {% else %}
+                                            <i class="fas fa-cow fa-2x text-muted"></i>
+                                        {% endif %}
+                                    </td>
+                                    <td><strong>{{ cow.name }}</strong></td>
+                                    <td>{{ cow.ear_tag }}</td>
+                                    <td>{{ cow.breed or '-' }}</td>
+                                    <td>{{ cow.date_of_birth }}</td>
+                                    <td>
+                                        <a href="{{ url_for('restore_cow', cow_id=cow.id) }}" class="btn btn-sm btn-success" onclick="return confirm('Restore this cow?')">
+                                            <i class="fas fa-trash-restore"></i> Restore
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-5">
+                        <i class="fas fa-archive fa-3x text-muted mb-3"></i>
+                        <h4>No Archived Cows</h4>
+                        <p>Archived cows will appear here when you delete them</p>
+                        <a href="{{ url_for('index') }}" class="btn btn-primary">Back to Active Cows</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

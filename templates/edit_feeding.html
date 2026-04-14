@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h4 class="mb-0"><i class="fas fa-edit"></i> ಆಹಾರ ದಾಖಲೆ ಸಂಪಾದಿಸಿ / Edit Feeding Record</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="feeding_date" class="form-label">ದಿನಾಂಕ / Date *</label>
+                            <input type="date" class="form-control" id="feeding_date" name="feeding_date" value="{{ feeding.feeding_date }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="busa_amount" class="form-label">ಬುಸ / Busa (Dry Fodder) - kg</label>
+                            <input type="number" step="0.1" class="form-control" id="busa_amount" name="busa_amount" value="{{ feeding.busa_amount }}">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="hindi_amount" class="form-label">ಹಿಂಡಿ / Hindi (Green Fodder) - kg</label>
+                            <input type="number" step="0.1" class="form-control" id="hindi_amount" name="hindi_amount" value="{{ feeding.hindi_amount }}">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="peni_amount" class="form-label">ಪೇಣಿ / Peni (Concentrate) - kg</label>
+                            <input type="number" step="0.1" class="form-control" id="peni_amount" name="peni_amount" value="{{ feeding.peni_amount }}">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="water_amount" class="form-label">ನೀರು / Water - Liters</label>
+                            <input type="number" step="0.1" class="form-control" id="water_amount" name="water_amount" value="{{ feeding.water_amount }}">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label for="notes" class="form-label">ಟಿಪ್ಪಣಿ / Notes</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="2">{{ feeding.notes or '' }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-calculator"></i> 
+                        ಹಿಂದಿನ ಒಟ್ಟು ಆಹಾರ: <strong>{{ feeding.total_feed }} kg</strong> | ನೀರು: <strong>{{ feeding.water_amount }} L</strong>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('cow_detail', cow_id=feeding.cow_id) }}" class="btn btn-secondary">ರದ್ದುಮಾಡು / Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> ನವೀಕರಿಸು / Update
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

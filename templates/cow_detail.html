@@ -1,0 +1,414 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <!-- Left Sidebar - Cow Profile -->
+    <div class="col-lg-4">
+        <div class="profile-sidebar">
+            {% if cow.photo_url %}
+                <img src="{{ cow.photo_url }}" class="profile-image" alt="{{ cow.name }}">
+            {% else %}
+                <img src="https://via.placeholder.com/400x300/f0f2f5/DAA520?text=🐄+{{ cow.name }}" class="profile-image" alt="{{ cow.name }}">
+            {% endif %}
+            
+            <h3 class="mb-1">{{ cow.name }}</h3>
+            <p class="text-muted mb-3">
+                <i class="fas fa-tag"></i> {{ cow.ear_tag }}
+            </p>
+            
+            <hr>
+            
+            <div class="mb-3">
+                <label class="text-muted small text-uppercase">Date of Birth</label>
+                <p class="mb-0 fw-semibold">{{ cow.date_of_birth }}</p>
+            </div>
+            
+            <div class="mb-3">
+                <label class="text-muted small text-uppercase">Age</label>
+                <p class="mb-0 fw-semibold">{{ calculate_age(cow.date_of_birth) }}</p>
+            </div>
+            
+            <div class="mb-3">
+                <label class="text-muted small text-uppercase">Breed</label>
+                <p class="mb-0 fw-semibold">{{ cow.breed or 'Not specified' }}</p>
+            </div>
+            
+            <div class="mb-3">
+                <label class="text-muted small text-uppercase">Total Births</label>
+                <p class="mb-0 fw-semibold">{{ births|length }}</p>
+            </div>
+            
+            <hr>
+            
+            <div class="d-grid gap-2">
+                <a href="{{ url_for('edit_cow', cow_id=cow.id) }}" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </a>
+                <button class="btn btn-outline-warning" onclick='confirmArchive({{ cow.id }}, "{{ cow.name }}")'>
+                    <i class="fas fa-archive"></i> Archive Cow
+                </button>
+                <button class="btn btn-outline-danger" onclick='confirmPermanentDelete({{ cow.id }}, "{{ cow.name }}")'>
+                    <i class="fas fa-trash-alt"></i> ⚠️ Permanently Delete
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Right Content - Records -->
+    <div class="col-lg-8">
+        <!-- Quick Action Buttons -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="text-muted mb-3">🐄 QUICK ACTIONS</h6>
+                        <div class="d-grid gap-2 d-md-flex">
+                            <a href="{{ url_for('add_insemination', cow_id=cow.id) }}" class="btn btn-primary flex-fill">
+                                <i class="fas fa-syringe"></i> Insemination
+                            </a>
+                            <a href="{{ url_for('add_pregnancy', cow_id=cow.id) }}" class="btn btn-success flex-fill">
+                                <i class="fas fa-fetus"></i> Pregnancy
+                            </a>
+                            <a href="{{ url_for('add_birth', cow_id=cow.id) }}" class="btn btn-info flex-fill">
+                                <i class="fas fa-baby-carriage"></i> Birth
+                            </a>
+                            <a href="{{ url_for('add_milking', cow_id=cow.id) }}" class="btn btn-warning flex-fill">
+                                <i class="fas fa-tint"></i> Milking
+                            </a>
+                            <a href="{{ url_for('add_feeding', cow_id=cow.id) }}" class="btn btn-secondary flex-fill" style="background: linear-gradient(135deg, #8B6914, #DAA520);">
+                                <i class="fas fa-apple-alt"></i> Feeding
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Insemination Records -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-syringe me-2 text-primary"></i> Insemination History
+            </div>
+            <div class="card-body p-0">
+                {% if inseminations %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Inseminer</th>
+                                    <th>Semen Type</th>
+                                    <th>Breed</th>
+                                    <th>Attempt</th>
+                                    <th>Result</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for insem in inseminations %}
+                                <tr>
+                                    <td>{{ insem.insemination_date }}</td>
+                                    <td>{{ insem.inseminer_name }}</td>
+                                    <td>{{ insem.semen_type }}</td>
+                                    <td>{{ insem.semen_breed }}</td>
+                                    <td>{{ insem.times_inseminated }}</td>
+                                    <td>
+                                        {% if insem.success %}
+                                            <span class="badge bg-success">✅ Success</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">❌ Failed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('edit_insemination', insem_id=insem.id) }}" class="btn btn-sm btn-outline-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-syringe fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">No insemination records yet</p>
+                        <a href="{{ url_for('add_insemination', cow_id=cow.id) }}" class="btn btn-sm btn-primary mt-2">Add First Record</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Pregnancy Records -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-fetus me-2 text-success"></i> Pregnancy History
+            </div>
+            <div class="card-body p-0">
+                {% if pregnancies %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Confirmed</th>
+                                    <th>Expected Birth</th>
+                                    <th>Gestation</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for preg in pregnancies %}
+                                <tr>
+                                    <td>{{ preg.confirmation_date }}</td>
+                                    <td>{{ preg.expected_birth_date }}</td>
+                                    <td>{{ preg.gestation_period }} days</td>
+                                    <td>
+                                        {% if preg.status == 'active' %}
+                                            <span class="badge bg-success">Active</span>
+                                        {% else %}
+                                            <span class="badge bg-info">Completed</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('edit_pregnancy', preg_id=preg.id) }}" class="btn btn-sm btn-outline-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-fetus fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">No pregnancy records yet</p>
+                        <a href="{{ url_for('add_pregnancy', cow_id=cow.id) }}" class="btn btn-sm btn-primary mt-2">Add First Record</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Birth Records -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-baby-carriage me-2 text-info"></i> Birth Records ({{ births|length }})
+            </div>
+            <div class="card-body p-0">
+                {% if births %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Birth Date</th>
+                                    <th>Gender</th>
+                                    <th>Health</th>
+                                    <th>Ear Tag</th>
+                                    <th>Notes</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for birth in births %}
+                                <tr>
+                                    <td>{{ birth.birth_date }}</td>
+                                    <td>{{ birth.offspring_gender }}</td>
+                                    <td>
+                                        {% if birth.offspring_health == 'Healthy' %}
+                                            <span class="badge bg-success">✅ Healthy</span>
+                                        {% elif birth.offspring_health == 'Needs Care' %}
+                                            <span class="badge bg-warning">⚠️ Needs Care</span>
+                                        {% else %}
+                                            <span class="badge bg-danger">💔 Stillborn</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ birth.offspring_ear_tag or '-' }}</td>
+                                    <td>{{ birth.notes or '-' }}</td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('edit_birth', birth_id=birth.id) }}" class="btn btn-sm btn-outline-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-baby-carriage fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">No birth records yet</p>
+                        <a href="{{ url_for('add_birth', cow_id=cow.id) }}" class="btn btn-sm btn-primary mt-2">Add First Record</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Milking Records -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-tint me-2 text-warning"></i> Milking Records
+            </div>
+            <div class="card-body p-0">
+                {% if milkings %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Morning (L)</th>
+                                    <th>Evening (L)</th>
+                                    <th>Total (L)</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for milking in milkings %}
+                                <tr>
+                                    <td>{{ milking.milking_date }}</td>
+                                    <td>{{ milking.morning_amount }}</td>
+                                    <td>{{ milking.evening_amount }}</td>
+                                    <td><strong>{{ milking.total_amount }} L</strong></td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('edit_milking', milking_id=milking.id) }}" class="btn btn-sm btn-outline-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-tint fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">No milking records yet</p>
+                        <a href="{{ url_for('add_milking', cow_id=cow.id) }}" class="btn btn-sm btn-primary mt-2">Add First Record</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Feeding Records (Kannada Support) -->
+        <div class="card">
+            <div class="card-header" style="background: linear-gradient(135deg, #fdf8f0, #fff5e6);">
+                <h5 class="mb-0"><i class="fas fa-apple-alt me-2" style="color: #DAA520;"></i> ಆಹಾರ ದಾಖಲೆಗಳು / Feeding Records</h5>
+            </div>
+            <div class="card-body">
+                <!-- Feeding Summary -->
+                {% if feeding_summary and feeding_summary.days > 0 %}
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="alert alert-success">
+                            <h6><i class="fas fa-chart-line"></i> ಸಾರಾಂಶ / Summary (Last {{ feeding_summary.days }} days)</h6>
+                            <div class="row mt-2">
+                                <div class="col-md-3 col-6">
+                                    <small>ಬುಸ / Busa:</small>
+                                    <strong>{{ feeding_summary.avg_busa }} kg/day</strong>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <small>ಹಿಂಡಿ / Hindi:</small>
+                                    <strong>{{ feeding_summary.avg_hindi }} kg/day</strong>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <small>ಪೇಣಿ / Peni:</small>
+                                    <strong>{{ feeding_summary.avg_peni }} kg/day</strong>
+                                </div>
+                                <div class="col-md-3 col-6">
+                                    <small>ನೀರು / Water:</small>
+                                    <strong>{{ feeding_summary.avg_water }} L/day</strong>
+                                </div>
+                            </div>
+                            <hr class="my-2">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <small>ಒಟ್ಟು ಆಹಾರ / Total Feed:</small>
+                                    <strong>{{ feeding_summary.total_feed }} kg</strong>
+                                </div>
+                                <div class="col-md-6">
+                                    <small>ಒಟ್ಟು ನೀರು / Total Water:</small>
+                                    <strong>{{ feeding_summary.total_water }} L</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Feeding Records Table -->
+                {% if feedings %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ದಿನಾಂಕ / Date</th>
+                                    <th>ಬುಸ / Busa (kg)</th>
+                                    <th>ಹಿಂಡಿ / Hindi (kg)</th>
+                                    <th>ಪೇಣಿ / Peni (kg)</th>
+                                    <th>ನೀರು / Water (L)</th>
+                                    <th>ಒಟ್ಟು / Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for feeding in feedings %}
+                                <tr>
+                                    <td>{{ feeding.feeding_date }}</td>
+                                    <td>{{ feeding.busa_amount }}</td>
+                                    <td>{{ feeding.hindi_amount }}</td>
+                                    <td>{{ feeding.peni_amount }}</td>
+                                    <td>{{ feeding.water_amount }}</td>
+                                    <td><strong>{{ feeding.total_feed }} kg</strong></td>
+                                    <td class="text-end">
+                                        <a href="{{ url_for('edit_feeding', feeding_id=feeding.id) }}" class="btn btn-sm btn-outline-warning">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-apple-alt fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">ಯಾವುದೇ ಆಹಾರ ದಾಖಲೆಗಳಿಲ್ಲ / No feeding records</p>
+                        <a href="{{ url_for('add_feeding', cow_id=cow.id) }}" class="btn btn-sm btn-primary mt-2" style="background: linear-gradient(135deg, #8B6914, #DAA520);">
+                            <i class="fas fa-plus"></i> ಮೊದಲ ದಾಖಲೆ ಸೇರಿಸಿ / Add First Record
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function confirmArchive(cowId, cowName) {
+    if(confirm(`📦 Are you sure you want to archive ${cowName}? The data will be preserved and can be restored later from the Archive page.`)) {
+        window.location.href = `/delete_cow/${cowId}`;
+    }
+}
+
+function confirmPermanentDelete(cowId, cowName) {
+    // First confirmation dialog
+    let firstConfirm = confirm(`⚠️⚠️⚠️ PERMANENT DELETE WARNING ⚠️⚠️⚠️\n\nYou are about to PERMANENTLY DELETE "${cowName}" and ALL associated records including:\n\n• Insemination history\n• Pregnancy records\n• Birth records\n• Milking records\n• Feeding records\n\nThis action CANNOT be undone!\n\nClick OK to proceed with verification.`);
+    
+    if(firstConfirm) {
+        // Second confirmation with text input
+        let userInput = prompt(`Type "${cowName}" to confirm permanent deletion:`);
+        if(userInput === cowName) {
+            let finalConfirm = confirm(`⚠️ LAST WARNING: This is irreversible! Are you absolutely sure you want to permanently delete ${cowName}?`);
+            if(finalConfirm) {
+                window.location.href = `/permanent_delete_cow/${cowId}`;
+            } else {
+                alert('Deletion cancelled.');
+            }
+        } else {
+            alert(`❌ Deletion cancelled - "${userInput}" does not match "${cowName}"`);
+        }
+    }
+}
+</script>
+{% endblock %}

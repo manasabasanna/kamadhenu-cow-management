@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0"><i class="fas fa-fetus"></i> Add Pregnancy Record for {{ cow.name }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="confirmation_date" class="form-label">Pregnancy Confirmation Date *</label>
+                            <input type="date" class="form-control" id="confirmation_date" name="confirmation_date" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="gestation_period" class="form-label">Gestation Period (days)</label>
+                            <input type="number" class="form-control" id="gestation_period" name="gestation_period" value="283">
+                            <small class="text-muted">Cows typically 283 days, can vary</small>
+                        </div>
+                        
+                        <div class="col-md-12 mb-3">
+                            <label for="expected_birth_date" class="form-label">Expected Birth Date *</label>
+                            <input type="date" class="form-control" id="expected_birth_date" name="expected_birth_date" required>
+                            <small class="text-muted">Based on gestation period</small>
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i> Note: Once the cow gives birth, you can mark this pregnancy as completed from the birth record.
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('cow_detail', cow_id=cow.id) }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Save Pregnancy
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

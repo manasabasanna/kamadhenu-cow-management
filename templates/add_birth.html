@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0"><i class="fas fa-baby-carriage"></i> Add Birth Record for {{ cow.name }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="birth_date" class="form-label">Birth Date *</label>
+                            <input type="date" class="form-control" id="birth_date" name="birth_date" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="offspring_gender" class="form-label">Offspring Gender *</label>
+                            <select class="form-select" id="offspring_gender" name="offspring_gender" required>
+                                <option value="">Select</option>
+                                <option value="Female">Female (Heifer)</option>
+                                <option value="Male">Male (Bull)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="offspring_health" class="form-label">Offspring Health *</label>
+                            <select class="form-select" id="offspring_health" name="offspring_health" required>
+                                <option value="Healthy">✅ Healthy</option>
+                                <option value="Needs Care">⚠️ Needs Medical Care</option>
+                                <option value="Stillborn">💔 Stillborn</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="offspring_ear_tag" class="form-label">Offspring Ear Tag (Optional)</label>
+                            <input type="text" class="form-control" id="offspring_ear_tag" name="offspring_ear_tag" placeholder="If tagged">
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="notes" class="form-label">Additional Notes</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Any complications, twins, etc."></textarea>
+                        </div>
+                        
+                        {% if pregnancies %}
+                        <div class="col-12 mb-3">
+                            <label for="pregnancy_id" class="form-label">Link to Pregnancy Record</label>
+                            <select class="form-select" id="pregnancy_id" name="pregnancy_id">
+                                <option value="">Select pregnancy (optional)</option>
+                                {% for preg in pregnancies %}
+                                <option value="{{ preg.id }}">Expected: {{ preg.expected_birth_date }}</option>
+                                {% endfor %}
+                            </select>
+                            <small class="text-muted">Selecting a pregnancy will mark it as completed</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="alert alert-success">
+                        <i class="fas fa-info-circle"></i> <strong>Note:</strong> Adding a birth record automatically updates the cow's total birth count.
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('cow_detail', cow_id=cow.id) }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-info">
+                            <i class="fas fa-save"></i> Save Birth Record
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

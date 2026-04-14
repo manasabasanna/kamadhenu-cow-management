@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h4 class="mb-0"><i class="fas fa-edit"></i> Edit Insemination Record</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="insemination_date" class="form-label">Insemination Date *</label>
+                            <input type="date" class="form-control" id="insemination_date" name="insemination_date" value="{{ insem.insemination_date }}" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="inseminer_name" class="form-label">Inseminer Name *</label>
+                            <input type="text" class="form-control" id="inseminer_name" name="inseminer_name" value="{{ insem.inseminer_name }}" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="semen_type" class="form-label">Semen Type *</label>
+                            <input type="text" class="form-control" id="semen_type" name="semen_type" value="{{ insem.semen_type }}" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="semen_breed" class="form-label">Semen Breed *</label>
+                            <input type="text" class="form-control" id="semen_breed" name="semen_breed" value="{{ insem.semen_breed }}" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="times_inseminated" class="form-label">Times Inseminated</label>
+                            <input type="number" class="form-control" id="times_inseminated" name="times_inseminated" value="{{ insem.times_inseminated }}" min="1">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check mt-4">
+                                <input class="form-check-input" type="checkbox" id="success" name="success" {% if insem.success %}checked{% endif %}>
+                                <label class="form-check-label" for="success">
+                                    <i class="fas fa-check-circle text-success"></i> Successful Insemination
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('cow_detail', cow_id=insem.cow_id) }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Update Record
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

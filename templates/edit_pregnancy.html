@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h4 class="mb-0"><i class="fas fa-edit"></i> Edit Pregnancy Record</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="confirmation_date" class="form-label">Pregnancy Confirmation Date *</label>
+                            <input type="date" class="form-control" id="confirmation_date" name="confirmation_date" value="{{ pregnancy.confirmation_date }}" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="gestation_period" class="form-label">Gestation Period (days)</label>
+                            <input type="number" class="form-control" id="gestation_period" name="gestation_period" value="{{ pregnancy.gestation_period }}">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="expected_birth_date" class="form-label">Expected Birth Date *</label>
+                            <input type="date" class="form-control" id="expected_birth_date" name="expected_birth_date" value="{{ pregnancy.expected_birth_date }}" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status">
+                                <option value="active" {% if pregnancy.status == 'active' %}selected{% endif %}>Active</option>
+                                <option value="completed" {% if pregnancy.status == 'completed' %}selected{% endif %}>Completed</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('cow_detail', cow_id=pregnancy.cow_id) }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Update Record
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h4 class="mb-0"><i class="fas fa-edit"></i> Edit Birth Record</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="birth_date" class="form-label">Birth Date *</label>
+                            <input type="date" class="form-control" id="birth_date" name="birth_date" value="{{ birth.birth_date }}" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="offspring_gender" class="form-label">Offspring Gender *</label>
+                            <select class="form-select" id="offspring_gender" name="offspring_gender" required>
+                                <option value="Female" {% if birth.offspring_gender == 'Female' %}selected{% endif %}>Female (Heifer)</option>
+                                <option value="Male" {% if birth.offspring_gender == 'Male' %}selected{% endif %}>Male (Bull)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="offspring_health" class="form-label">Offspring Health *</label>
+                            <select class="form-select" id="offspring_health" name="offspring_health" required>
+                                <option value="Healthy" {% if birth.offspring_health == 'Healthy' %}selected{% endif %}>✅ Healthy</option>
+                                <option value="Needs Care" {% if birth.offspring_health == 'Needs Care' %}selected{% endif %}>⚠️ Needs Medical Care</option>
+                                <option value="Stillborn" {% if birth.offspring_health == 'Stillborn' %}selected{% endif %}>💔 Stillborn</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="offspring_ear_tag" class="form-label">Offspring Ear Tag</label>
+                            <input type="text" class="form-control" id="offspring_ear_tag" name="offspring_ear_tag" value="{{ birth.offspring_ear_tag or '' }}">
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="notes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="notes" name="notes" rows="3">{{ birth.notes or '' }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('cow_detail', cow_id=birth.cow_id) }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Update Record
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

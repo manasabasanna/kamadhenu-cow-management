@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0"><i class="fas fa-tint"></i> Add Milking Record for {{ cow.name }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="milking_date" class="form-label">Milking Date *</label>
+                            <input type="date" class="form-control" id="milking_date" name="milking_date" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="morning_amount" class="form-label">Morning Milk (Liters)</label>
+                            <input type="number" step="0.1" class="form-control" id="morning_amount" name="morning_amount" value="0">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="evening_amount" class="form-label">Evening Milk (Liters)</label>
+                            <input type="number" step="0.1" class="form-control" id="evening_amount" name="evening_amount" value="0">
+                        </div>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-calculator"></i> Total milk will be calculated automatically
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('cow_detail', cow_id=cow.id) }}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> Save Milking Record
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

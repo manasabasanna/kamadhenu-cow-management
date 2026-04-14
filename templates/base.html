@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಕಾಮಧೇನು | Kamadhenu - Professional Herd Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+Kannada:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fdf8f0 0%, #f5e6d3 100%);
+            color: #2c1810;
+        }
+        
+        /* Professional Navbar with Divine Kamadhenu Theme */
+        .navbar {
+            background: linear-gradient(135deg, #8B2500 0%, #DAA520 30%, #1a472a 70%, #0d2818 100%);
+            box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+            padding: 0.8rem 0;
+            border-bottom: 3px solid #FFD700;
+        }
+        
+        .navbar-brand {
+            text-align: center;
+            padding: 5px 0;
+        }
+        
+        .kannada-logo {
+            font-family: 'Noto Serif Kannada', serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD700, #FFF8DC, #FFE4B5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            letter-spacing: 3px;
+            display: block;
+            line-height: 1.2;
+        }
+        
+        .kannada-logo small {
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+            background: none;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+            color: #FFD700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+        }
+        
+        .english-subtitle {
+            font-size: 0.75rem;
+            font-family: 'Poppins', sans-serif;
+            color: #FFD700;
+            display: block;
+            letter-spacing: 2px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+        
+        .navbar-brand i {
+            font-size: 2rem;
+            color: #FFD700;
+            margin-right: 10px;
+            vertical-align: middle;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        .nav-link {
+            font-weight: 600;
+            margin: 0 5px;
+            transition: all 0.3s;
+            color: rgba(255,255,255,0.95) !important;
+            font-size: 0.95rem;
+        }
+        
+        .nav-link:hover {
+            transform: translateY(-2px);
+            color: #FFD700 !important;
+            text-shadow: 0 0 5px rgba(255,215,0,0.5);
+        }
+        
+        .user-greeting {
+            background: rgba(255,255,255,0.15);
+            border-radius: 40px;
+            padding: 5px 18px;
+            margin-left: 10px;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        
+        .user-greeting i {
+            color: #FFD700;
+        }
+        
+        .user-greeting .nav-link {
+            padding: 0;
+            margin: 0;
+        }
+        
+        /* Professional Cards */
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            background: white;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #fdf8f0, #fff5e6);
+            border-bottom: 2px solid #DAA520;
+            padding: 1.25rem 1.5rem;
+            font-weight: 700;
+            border-radius: 20px 20px 0 0 !important;
+            color: #5a2d0c;
+        }
+        
+        /* Stat Cards */
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            border-left: 5px solid #DAA520;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: "🙏";
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 3rem;
+            opacity: 0.1;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card i {
+            font-size: 2.5rem;
+            color: #DAA520;
+            opacity: 0.9;
+        }
+        
+        .stat-card h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+            color: #5a2d0c;
+        }
+        
+        /* Professional Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 0.6rem 1.5rem;
+            font-weight: 700;
+            transition: all 0.3s;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(218,165,32,0.4);
+            background: linear-gradient(135deg, #E6B800 0%, #C4950A 100%);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #b02a37);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .btn-outline-primary {
+            border: 2px solid #DAA520;
+            color: #B8860B;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .btn-outline-primary:hover {
+            background: linear-gradient(135deg, #DAA520, #B8860B);
+            border-color: transparent;
+            color: white;
+        }
+        
+        .btn-outline-danger {
+            border: 2px solid #dc3545;
+            color: #dc3545;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .btn-outline-danger:hover {
+            background: #dc3545;
+            border-color: transparent;
+            color: white;
+        }
+        
+        /* Cow Cards */
+        .cow-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .cow-card::before {
+            content: "🐄";
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 2rem;
+            opacity: 0.15;
+            z-index: 1;
+        }
+        
+        .cow-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 35px rgba(0,0,0,0.15);
+        }
+        
+        .cow-card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+        
+        .cow-info {
+            padding: 1.25rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cow-name {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: #5a2d0c;
+        }
+        
+        .cow-tag {
+            font-size: 0.85rem;
+            color: #8B6914;
+            font-family: monospace;
+            font-weight: 600;
+        }
+        
+        /* Modal Styles */
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #8B2500, #DAA520);
+            color: white;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        /* Tables */
+        .table {
+            margin-bottom: 0;
+        }
+        
+        .table thead th {
+            background: linear-gradient(135deg, #fdf8f0, #f5e6d3);
+            color: #5a2d0c;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid #DAA520;
+            padding: 1rem;
+        }
+        
+        .table tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            color: #4a2a10;
+        }
+        
+        /* Badges */
+        .badge.bg-success {
+            background: linear-gradient(135deg, #28a745, #1e7e34) !important;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .badge.bg-warning {
+            background: linear-gradient(135deg, #ffc107, #fd7e14) !important;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #2c1810;
+        }
+        
+        /* Forms */
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 1.5px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #DAA520;
+            box-shadow: 0 0 0 0.2rem rgba(218,165,32,0.25);
+        }
+        
+        .form-label {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #5a2d0c;
+            font-size: 0.9rem;
+        }
+        
+        /* Alerts */
+        .alert {
+            border-radius: 15px;
+            border: none;
+            padding: 1rem 1.25rem;
+        }
+        
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1a1a2e, #0d2818);
+            color: #FFD700;
+            padding: 1.8rem 0;
+            margin-top: 3rem;
+            text-align: center;
+            border-top: 3px solid #DAA520;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes glowPulse {
+            0% { text-shadow: 0 0 5px #FFD700; }
+            100% { text-shadow: 0 0 20px #FFD700; }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .kannada-logo {
+            animation: glowPulse 2s ease-in-out infinite alternate;
+        }
+        
+        /* Sidebar for detail page */
+        .profile-sidebar {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            position: sticky;
+            top: 80px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .profile-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            border: 3px solid #DAA520;
+        }
+        
+        /* Action buttons group */
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stat-card h2 {
+                font-size: 1.5rem;
+            }
+            
+            .cow-card img {
+                height: 180px;
+            }
+            
+            .navbar-brand {
+                padding: 0;
+            }
+            
+            .kannada-logo {
+                font-size: 1.5rem;
+            }
+            
+            .profile-sidebar {
+                position: relative;
+                top: 0;
+                margin-bottom: 1.5rem;
+            }
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f5e6d3;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #DAA520, #8B2500);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #E6B800, #A03000);
+        }
+        
+        /* Devanagari/Kannada text style */
+        .kannada-text {
+            font-family: 'Noto Serif Kannada', serif;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('index') }}">
+                <i class="fas fa-cow"></i>
+                <span class="kannada-logo">
+                    ಕಾಮಧೇನು
+                    <small class="english-subtitle">Kamadhenu</small>
+                </span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if session.username %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('index') }}">
+                                <i class="fas fa-chart-line"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('add_cow') }}">
+                                <i class="fas fa-plus-circle"></i> Register Cow
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('archived_cows') }}">
+                                <i class="fas fa-archive"></i> Archive
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('manual_backup') }}" onclick="return confirm('Create a manual backup of all data?')">
+                                <i class="fas fa-database"></i> Backup
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('logout') }}">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </li>
+                        <li class="nav-item user-greeting">
+                            <span class="nav-link">
+                                <i class="fas fa-user-circle"></i> 🙏 Namaste, {{ session.username }}!
+                            </span>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('login') }}">
+                                <i class="fas fa-sign-in-alt"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('register') }}">
+                                <i class="fas fa-user-plus"></i> Register
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4 fade-in-up">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category if category != 'message' else 'info' }} alert-dismissible fade show shadow-sm" role="alert">
+                        <i class="fas fa-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-triangle{% else %}info-circle{% endif %} me-2"></i>
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+
+    <div class="footer">
+        <div class="container">
+            <p class="mb-0">
+                <i class="fas fa-cow me-2"></i> 
+                <span class="kannada-text">ಕಾಮಧೇನು</span> - Kamadhenu | 
+                <i class="fas fa-database me-2"></i> Divine Herd Management System |
+                <i class="fas fa-cloud-upload-alt me-2"></i> Auto backups enabled
+            </p>
+            <small class="mt-2 d-block">
+                <i class="fas fa-language"></i> ಕನ್ನಡ / English | ಬುಸ (Busa) | ಹಿಂಡಿ (Hindi) | ಪೇಣಿ (Peni) | ನೀರು (Water)
+            </small>
+            <small class="mt-1 d-block">
+                <i class="fas fa-om"></i> ಗೋ ಮಾತಾ - Protecting the Divine Mother
+            </small>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        setTimeout(function() {
+            $('.alert').fadeOut('slow');
+        }, 5000);
+        
+        $(document).ready(function() {
+            var currentUrl = window.location.pathname;
+            $('.nav-link').each(function() {
+                if ($(this).attr('href') === currentUrl) {
+                    $(this).addClass('active');
+                }
+            });
+        });
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
+/* Welcome Card Animation */
+.welcome-card {
+    animation: gentlePulse 2s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.01); }
+    100% { transform: scale(1); }
+}
+
+/* Stat Card Enhancements */
+.stat-card {
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+}
+
+/* Search Input Styling */
+.input-group-text {
+    border-radius: 15px 0 0 15px;
+}
+
+.form-control {
+    border-radius: 0 15px 15px 0;
+}
+
+/* Cow Card Enhancements */
+.cow-card {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cow-card:hover {
+    transform: translateY(-10px) scale(1.02);
+}
+
+/* Button Animations */
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}

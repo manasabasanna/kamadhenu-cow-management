@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row justify-content-center" style="min-height: 80vh; align-items: center;">
+    <div class="col-md-5">
+        <div class="card shadow-lg">
+            <div class="card-header text-center py-4">
+                <i class="fas fa-user-plus fa-3x" style="color: #DAA520;"></i>
+                <h2 class="kannada-text mt-2" style="font-size: 2rem;">ಕಾಮಧೇನು</h2>
+                <h5>Create New Account</h5>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-user"></i> Username</label>
+                        <input type="text" name="username" class="form-control" required placeholder="Choose a username">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" name="password" class="form-control" required placeholder="Choose a password">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label"><i class="fas fa-check-circle"></i> Confirm Password</label>
+                        <input type="password" name="confirm_password" class="form-control" required placeholder="Confirm password">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-user-plus"></i> Register
+                    </button>
+                </form>
+                <hr>
+                <p class="text-center mb-0">
+                    Already have an account? <a href="{{ url_for('login') }}">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
